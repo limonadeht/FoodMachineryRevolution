@@ -4,6 +4,8 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import handler.GuiHandler;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -31,6 +33,11 @@ public class FoodMachineryRevolution {
 
 	@EventHandler
 	public void Init(FMLPreInitializationEvent e){
+		MaterialRegister.addBlocks();
+		MaterialRegister.addItem();
+		MaterialRegister.instance.load();
+
+		NetworkRegistry.INSTANCE.registerGuiHandler(this.Instance, new GuiHandler());
 	}
 
 	public static CreativeTabs tabFMR = new CreativeTabs("FoodMachineryRevolution"){
