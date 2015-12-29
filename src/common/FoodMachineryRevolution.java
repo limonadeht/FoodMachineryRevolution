@@ -23,7 +23,7 @@ public class FoodMachineryRevolution {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e){
 		System.out.println("*****************************************");
-		System.out.println("*  Food Machinery Evolution [Alpha-1.0] *");
+		System.out.println("* Food Machinery Revolution [Alpha-1.0] *");
 		System.out.println("*          LOADED SUCCESSFULLY          *");
 		System.out.println("*        Presents for you Have fun!     *");
 		System.out.println("*****************************************");
