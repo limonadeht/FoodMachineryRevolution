@@ -27,12 +27,11 @@ public class FoodCraftTable extends Block{
 
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return side == 1 ? this.top : this.blockIcon;
+		return side == 1 ? this.top : this.top;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister){
-		this.blockIcon = iconRegister.registerIcon("fmr:foodCraftingTableSide");
 		this.top = iconRegister.registerIcon("fmr:foodCraftingTableTop");
 	}
 

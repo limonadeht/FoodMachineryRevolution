@@ -90,6 +90,8 @@ public class MaterialRegister {
 		GameRegistry.registerBlock(blockOfSteel, "fmr.blockOfSteel");
 		GameRegistry.registerBlock(foodCraftTable, "fmr.fCrafting");
 
+		//植物 作物系
+
 		//機械アップグレード
 		GameRegistry.registerItem(upgrade_speed, "fmr.upgrade_speed");
 		GameRegistry.registerItem(upgrade_fuel, "fmr.upgrade_fuel");
@@ -119,11 +121,8 @@ public class MaterialRegister {
 	}
 
 	static void addBlocks(){
-		FoodFurnace_Idle = new FoodFurnace(false).setBlockName("fmr.FoodFurnace_Idle")
-				.setCreativeTab(FoodMachineryRevolution.tabFMR);
-
-		FoodFurnace_Active = new FoodFurnace(true).setBlockName("fmr.FoodFurnace_Active")
-				.setCreativeTab(FoodMachineryRevolution.tabFMR);
+		FoodFurnace_Idle = new FoodFurnace(false).setBlockName("fmr.FoodFurnace_Idle").setCreativeTab(FoodMachineryRevolution.tabFMR);
+		FoodFurnace_Active = new FoodFurnace(true).setBlockName("fmr.FoodFurnace_Active").setCreativeTab(FoodMachineryRevolution.tabFMR);
 		blockOfSteel = new BlockOfSteel().setCreativeTab(FoodMachineryRevolution.tabFMR);
 		foodCraftTable = new FoodCraftTable().setCreativeTab(FoodMachineryRevolution.tabFMR);
 	}

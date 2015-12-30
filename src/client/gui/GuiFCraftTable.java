@@ -14,6 +14,9 @@ public class GuiFCraftTable extends GuiContainer{
 
 	private ResourceLocation texture = new ResourceLocation("fmr", "textures/gui/fCraftTable.png");
 
+	private float mouseX;
+	private float mouseY;
+
 	public GuiFCraftTable(InventoryPlayer invPlayer, World world, int x, int y, int z){
 		super(new ContainerFCraftingTable(invPlayer, world, x, y, z));
 
@@ -25,7 +28,8 @@ public class GuiFCraftTable extends GuiContainer{
 		super.onGuiClosed();
 	}
 
-	protected void drawGuiContainerForegroundLayer(int i, int j) {
+
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 
 		this.fontRendererObj.drawString(StatCollector.translateToLocal("Food Crafting"), 100, 5, 0xFFFFFF);
 
@@ -35,10 +39,7 @@ public class GuiFCraftTable extends GuiContainer{
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 
 		GL11.glColor4f(1F, 1F, 1F, 1F);
-
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-
 	}
 }
