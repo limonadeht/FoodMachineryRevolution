@@ -1,10 +1,10 @@
 package common;
 
+import common.block.FoodFurnace;
 import common.item.UpgradeSpeed;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import privates.limonadeht.block.FoodFurnace;
 
 /*
  * https://github.com/defeatedcrow/AppleMilkTea2_1.7.10/blob/master/java/mods/defeatedcrow/common/MaterialRegister.java#L942

@@ -1,26 +1,26 @@
-package privates.limonadeht.block;
+package common.block;
 
 import java.util.Random;
 
+import client.tileentity.TileEntityFFurnace;
+import common.FoodMachineryRevolution;
 import common.MaterialRegister;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class FoodFurnace extends Block{
+public class FoodFurnace extends BlockContainer{
 
 	@SideOnly(Side.CLIENT)
 	private IIcon top;
@@ -92,34 +92,20 @@ public class FoodFurnace extends Block{
 
 	@Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float posX, float posY, float posZ){
-			ItemStack current = player.inventory.getCurrentItem();
-			if(current == null){
-				if(world.isRemote){
-				player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.AQUA + "Nooooooo! Please " + EnumChatFormatting.GOLD + "BLAZE_ROD"));
-				}
-			}else if(Items.blaze_rod == null){
-				world.scheduleBlockUpdate(x, y, z, this, 1);
-				player.inventory.addItemStackToInventory(new ItemStack(Items.blaze_powder, 1));
-				if(world.isRemote){
-				player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.AQUA + "Yessssss! Present for you"));
-				}
-			}else{
-				world.scheduleBlockUpdate(x, y, z, this, 1);
-				player.inventory.addItemStackToInventory(new ItemStack(Items.egg));
-				if(world.isRemote){
-				player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.DARK_BLUE + "...? hmm..."));
-				}
+		ItemStack itemstack = player.inventory.getCurrentItem();
+		if(itemstack == null){
+			player.openGui(FoodMachineryRevolution.Instance, 0, world, x, y, z);
+			return true;
 		}
         return true;
     }
 
+	public TileEntity createNewTileEntity(World world, int par2){
+		return new TileEntityFFurnace();
+	}
+
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random random){
-		Block block = world.getBlock(x, y-1, z);
-
-		world.setBlock(x, y+30, z, Blocks.tnt);
-		world.setBlock(x, y+29, z, Blocks.redstone_block);
-		world.setBlock(x, y+29, z, Blocks.air);
 		super.updateTick(world, x, y, z, random);
 	}
 
@@ -139,8 +125,29 @@ public class FoodFurnace extends Block{
 			world.setBlockMetadataWithNotify(x,y, z, 4, 2);
 		}
 
-		/*if(itemstack.hasDisplayName()){
-			((TileEntityFoodFurnace)world.getTileEntity(x, y, z)).setGuiDisplayName(itemstack.getDisplayName());
-		}*/
+		if(itemstack.hasDisplayName()){
+			((TileEntityFFurnace)world.getTileEntity(x, y, z)).setGuiDisplayName(itemstack.getDisplayName());
+		}
+	}
+
+	public static void updateFoodFurnaceState(boolean active, World worldObj, int xCoord, int yCoord, int zCoord) {
+		int i= worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+
+		TileEntity tileentity = worldObj.getTileEntity(xCoord, yCoord, zCoord);
+		keepInventory = true;
+
+		if(active){
+			worldObj.setBlock(xCoord, yCoord, zCoord, MaterialRegister.FoodFurnace_Active);
+		}else{
+			worldObj.setBlock(xCoord, yCoord, zCoord, MaterialRegister.FoodFurnace_Idle);
+		}
+
+		keepInventory = false;
+		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, i, 2);
+
+		if(tileentity != null){
+			tileentity.validate();
+			worldObj.setTileEntity(xCoord, yCoord, zCoord, tileentity);
+		}
 	}
 }
