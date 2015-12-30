@@ -28,6 +28,9 @@ public class TileEntityFFurnace extends TileEntity implements ISidedInventory{
 
 	private String FFurnace;
 
+	public int facing = 2;
+	public boolean formed = false;
+
 	public int burnTime;
 	public int currentItemBurnTime;
 	public int cookTime;

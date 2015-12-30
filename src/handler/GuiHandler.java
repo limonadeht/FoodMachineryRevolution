@@ -1,7 +1,10 @@
 package handler;
 
+import client.gui.GuiFCraftTable;
 import client.gui.GuiFFurnace;
 import client.tileentity.TileEntityFFurnace;
+import common.MaterialRegister;
+import common.block.container.ContainerFCraftingTable;
 import common.block.container.ContainerFFurnace;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +21,9 @@ public class GuiHandler implements IGuiHandler{
 			return new ContainerFFurnace(player.inventory, (TileEntityFFurnace)entity);
 		}
 
+		if(ID == 1){
+			return ID == 1 && world.getBlock(x, y, z) == MaterialRegister.foodCraftTable ? new ContainerFCraftingTable(player.inventory, world, x, y, z) : null;
+		}
 		return null;
 	}
 
@@ -27,6 +33,10 @@ public class GuiHandler implements IGuiHandler{
 
 		if(entity instanceof TileEntityFFurnace){
 			return new GuiFFurnace(player.inventory,(TileEntityFFurnace)entity);
+		}
+
+		if(ID == 1){
+			return ID == 1 && world.getBlock(x, y, z) == MaterialRegister.foodCraftTable ? new GuiFCraftTable(player.inventory, world, x, y, z) : null;
 		}
 		return null;
 	}

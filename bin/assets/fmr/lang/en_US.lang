@@ -15,3 +15,5 @@ item.fmr.ingotCopper.name=Copper Ingot
 
 tile.fmr.FoodFurnace_Idle.name=Food Furnace
 tile.fmr.FoodFurnace_Active.name=Food Furnace
+tile.fmr.blockOfSteel.name=Block of Steel
+tile.fmr.fCrafting.name=§dFood Crafting Table

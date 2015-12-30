@@ -13,6 +13,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -93,9 +94,14 @@ public class FoodFurnace extends BlockContainer{
 	@Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float posX, float posY, float posZ){
 		ItemStack itemstack = player.inventory.getCurrentItem();
-		if(itemstack == null){
-			player.openGui(FoodMachineryRevolution.Instance, 0, world, x, y, z);
-			return true;
+
+		if(world.getBlock(x, y+1, z) == MaterialRegister.blockOfSteel &&
+				world.getBlock(x+1, y, z) == Blocks.hopper &&
+				world.getBlock(x, y, z+1) == Blocks.hopper){
+			if(itemstack == null){
+				player.openGui(FoodMachineryRevolution.Instance, 0, world, x, y, z);
+				return true;
+			}
 		}
         return true;
     }

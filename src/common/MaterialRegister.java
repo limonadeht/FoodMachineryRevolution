@@ -1,5 +1,7 @@
 package common;
 
+import common.block.BlockOfSteel;
+import common.block.FoodCraftTable;
 import common.block.FoodFurnace;
 import common.food.Cabbage;
 import common.food.Meat;
@@ -43,6 +45,9 @@ public class MaterialRegister {
 
 	public static Block FoodFurnace_Active;
 	public static Block FoodFurnace_Idle;
+	public static Block foodCraftTable;
+
+	public static Block blockOfSteel;
 
 	private MaterialRegister(){
 	}
@@ -81,6 +86,10 @@ public class MaterialRegister {
 		GameRegistry.registerBlock(FoodFurnace_Idle, "fmr.FoodFurnace_Idle");
 		GameRegistry.registerBlock(FoodFurnace_Active, "fmr.FoodFurnace_Active");
 
+		//ブロック
+		GameRegistry.registerBlock(blockOfSteel, "fmr.blockOfSteel");
+		GameRegistry.registerBlock(foodCraftTable, "fmr.fCrafting");
+
 		//機械アップグレード
 		GameRegistry.registerItem(upgrade_speed, "fmr.upgrade_speed");
 		GameRegistry.registerItem(upgrade_fuel, "fmr.upgrade_fuel");
@@ -115,6 +124,8 @@ public class MaterialRegister {
 
 		FoodFurnace_Active = new FoodFurnace(true).setBlockName("fmr.FoodFurnace_Active")
 				.setCreativeTab(FoodMachineryRevolution.tabFMR);
+		blockOfSteel = new BlockOfSteel().setCreativeTab(FoodMachineryRevolution.tabFMR);
+		foodCraftTable = new FoodCraftTable().setCreativeTab(FoodMachineryRevolution.tabFMR);
 	}
 
 	static void addPlants(){
