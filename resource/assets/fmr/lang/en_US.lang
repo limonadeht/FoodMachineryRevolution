@@ -1,2 +1,17 @@
 #en_Us.lang
 itemGroup.FoodMachineryRevolution=Food Machinery Revolution
+
+item.fmr.upgrade_speed.name=Speed Upgrade
+item.fmr.upgrade_fuel.name=Fuel Upgrade
+item.fmr.voidBucSteel.name=Steel Void Bucket
+item.fmr.meat.name=Meat
+item.fmr.rawMeat.name=Raw Meat
+item.fmr.ingotTin.name=Tin Ingot
+item.fmr.cabbage.name=Cabbage
+item.fmr.tomato.name=Tomato
+item.fmr.ingotSteel.name=Steel Ingot
+item.fmr.dishEmpty.name=Dish (Empty)
+item.fmr.ingotCopper.name=Copper Ingot
+
+tile.fmr.FoodFurnace_Idle.name=Food Furnace
+tile.fmr.FoodFurnace_Active.name=Food Furnace

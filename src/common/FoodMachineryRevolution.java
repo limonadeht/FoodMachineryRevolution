@@ -7,7 +7,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import handler.GuiHandler;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import server.ServerProxy;
 
@@ -24,6 +23,8 @@ public class FoodMachineryRevolution {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e){
+		MaterialRegister.instance.registOreDic(); //一部登録漏れが出るため、一番最初の方で優先的にLoadする
+		System.out.println("OreDictionaly Loaded Succeccfully.");
 		System.out.println("*****************************************");
 		System.out.println("* Food Machinery Revolution [Alpha-1.0] *");
 		System.out.println("*          LOADED SUCCESSFULLY          *");
@@ -43,7 +44,7 @@ public class FoodMachineryRevolution {
 	public static CreativeTabs tabFMR = new CreativeTabs("FoodMachineryRevolution"){
 
 	public Item getTabIconItem(){
-		return Item.getItemFromBlock(Blocks.dragon_egg);
+		return MaterialRegister.upgrade_speed;
 		}
 	};
 }

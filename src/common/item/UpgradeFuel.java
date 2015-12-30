@@ -6,37 +6,25 @@ import common.FoodMachineryRevolution;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 
-public class UpgradeSpeed extends Item{
+public class UpgradeFuel extends Item{
 
-	public UpgradeSpeed(){
-		this.setUnlocalizedName("fmr.upgrade_speed");
+	public UpgradeFuel(){
+		this.setUnlocalizedName("fmr.upgrade_fuel");
 		this.setTextureName("fmr:upgrade");
 		this.setMaxStackSize(1);
 	}
 
-
-
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean advanced){
 		if(FoodMachineryRevolution.serverproxy.isShiftKeyDown()){
-			list.add("§oThis item is that it is set in a particular machine,");
-			list.add("§oyou get the effect of a speed increase!");
+			list.add("§oThis item allows you to even better");
+			list.add("§othe fuel efficiency of the machine!");
 			list.add("--------------------------");
-			list.add("§bProgress Speed§7: §62.0x");
+			list.add("§bFuel Efficiency§7: §62.0x");
 		}else{
 			list.add("§oPress §bLShift §7§ofor Info");
 		}
 		super.addInformation(itemstack, player, list, advanced);
 	}
-
-
-
-	@Override
-	public boolean onItemUse(ItemStack itemstack, EntityPlayer player, World world, int x, int y, int z, int p7, float p8, float p9, float p10){
-		return super.onItemUse(itemstack, player, world, x, y, z, p7, p8, p9, p10);
-	}
-
-
 }
