@@ -90,18 +90,76 @@ public class FoodFurnace extends BlockContainer{
 		}
 
 	}
+	
+	public boolean isMultiBlock(World world, int x, int y, int z){
+		boolean north = false;
+		boolean south = false;
+		boolean east = false;
+		boolean west = false;
+		
+		for(int direction = 0; direction <= 3; direction++){
+			if(direction == 0){
+				PARENT:
+				for(int height = y - 1; height <= y + 1; height++){
+					for(int widthX = x; widthX <= x + 2; widthX++){
+						for(int widthZ = z - 1; widthZ <= z + 1; widthZ++){
+							if(height == y && widthX == x && widthZ == z){}
+							else if(world.getBlock(widthX, height, widthZ) != MaterialRegister.blockOfSteel){west = false; break PARENT;}
+							west = true;
+						}
+					}
+				}
+			}else if(direction == 1){
+				PARENT:
+				for(int height = y - 1; height <= y + 1; height++){
+					for(int widthX = x - 2; widthX <= x; widthX++){
+						for(int widthZ = z - 1; widthZ <= z + 1; widthZ++){
+							if(height == y && widthX == x && widthZ == z){}
+							else if(world.getBlock(widthX, height, widthZ) != MaterialRegister.blockOfSteel){east = false; break PARENT;}
+							east = true;
+						}
+					}
+				}
+			}else if(direction == 2){
+				PARENT:
+				for(int height = y - 1; height <= y + 1; height++){
+					for(int widthX = x - 1; widthX <= x + 1; widthX++){
+						for(int widthZ = z; widthZ <= z + 2; widthZ++){
+							if(height == y && widthX == x && widthZ == z){}
+							else if(world.getBlock(widthX, height, widthZ) != MaterialRegister.blockOfSteel){north = false; break PARENT;}
+							north = true;
+						}
+					}
+				}
+			}else{
+				PARENT:
+				for(int height = y - 1; height <= y + 1; height++){
+					for(int widthX = x - 1; widthX <= x + 1; widthX++){
+						for(int widthZ = z - 2; widthZ <= z; widthZ++){
+							if(height == y && widthX == x && widthZ == z){}
+							else if(world.getBlock(widthX, height, widthZ) != MaterialRegister.blockOfSteel){south = false; break PARENT;}
+							south = true;
+						}
+					}
+				}
+			}
+		}
+		if(south)return true;
+		else if(north)return true;
+		else if(east)return true;
+		else if(west)return true;
+		return false;
+	}
 
 	@Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float posX, float posY, float posZ){
 		ItemStack itemstack = player.inventory.getCurrentItem();
 
-		if(world.getBlock(x, y+1, z) == MaterialRegister.blockOfSteel &&
-				world.getBlock(x+1, y, z) == Blocks.hopper &&
-				world.getBlock(x, y, z+1) == Blocks.hopper){
-			if(itemstack == null){
+		if(isMultiBlock(world, x, y, z)){
+			//if(itemstack == null){
 				player.openGui(FoodMachineryRevolution.Instance, 0, world, x, y, z);
 				return true;
-			}
+			//}
 		}
         return true;
     }
