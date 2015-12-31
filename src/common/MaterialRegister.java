@@ -1,8 +1,11 @@
 package common;
 
+import client.tileentity.InfomationSolar;
+import client.tileentity.TileEntitySolarPanel;
 import common.block.BlockOfSteel;
 import common.block.FoodCraftTable;
 import common.block.FoodFurnace;
+import common.block.SolarPanel;
 import common.food.Cabbage;
 import common.food.Meat;
 import common.food.RawMeat;
@@ -27,6 +30,21 @@ import net.minecraftforge.oredict.OreDictionary;
 public class MaterialRegister {
 
 	public static MaterialRegister instance = new MaterialRegister();
+
+	public static final Block solarPanelBasic = new SolarPanel.Basic("solarBasic", 8);
+	public static final Block solarPanelBasicI = new SolarPanel.BasicI("solarBasicI", 16);
+	public static final Block solarPanelBasicII = new SolarPanel.BasicII("solarBasicII", 32);
+	public static final Block solarPanelBasicIII = new SolarPanel.BasicIII("solarBasicIII", 64);
+
+	public static final Block solarPanelAdvanced = new SolarPanel.Advanced("solarAdvanced", 128);
+	public static final Block solarPanelAdvancedI = new SolarPanel.AdvancedI("solarAdvancedI", 256);
+	public static final Block solarPanelAdvancedII = new SolarPanel.AdvancedII("solarAdvancedII", 512);
+	public static final Block solarPanelAdvancedIII = new SolarPanel.AdvancedIII("solarAdvancedIII", 1024);
+
+	public static final Block solarPanelEnchanted = new SolarPanel.Enchanted("solarEnchanted", 2048);
+	public static final Block solarPanelEnchantedI = new SolarPanel.EnchantedI("solarEnchantedI", 4096);
+	public static final Block solarPanelEnchantedII = new SolarPanel.EnchantedII("solarEnchantedII", 8192);
+	public static final Block solarPanelEnchantedIII = new SolarPanel.EnchantedIII("solarEnchantedIII", 16384);
 
 	public static Item ingotSteel;
 	public static Item ingotCopper;
@@ -85,6 +103,38 @@ public class MaterialRegister {
 		//機械
 		GameRegistry.registerBlock(FoodFurnace_Idle, "fmr.FoodFurnace_Idle");
 		GameRegistry.registerBlock(FoodFurnace_Active, "fmr.FoodFurnace_Active");
+
+		GameRegistry.registerBlock(solarPanelBasic, InfomationSolar.class, "solarBasic");
+		GameRegistry.registerBlock(solarPanelBasicI, InfomationSolar.class, "solarBasicI");
+		GameRegistry.registerBlock(solarPanelBasicII, InfomationSolar.class, "solarBasicII");
+		GameRegistry.registerBlock(solarPanelBasicIII, InfomationSolar.class, "solarBasicIII");
+
+
+		GameRegistry.registerBlock(solarPanelAdvanced, InfomationSolar.class, "solarAdvanced");
+		GameRegistry.registerBlock(solarPanelAdvancedI, InfomationSolar.class, "solarAdvancedI");
+		GameRegistry.registerBlock(solarPanelAdvancedII, InfomationSolar.class, "solarAdvancedII");
+		GameRegistry.registerBlock(solarPanelAdvancedIII, InfomationSolar.class, "solarAdvancedIII");
+
+		GameRegistry.registerBlock(solarPanelEnchanted, InfomationSolar.class, "solarEnchanted");
+		GameRegistry.registerBlock(solarPanelEnchantedI, InfomationSolar.class, "solarEnchantedI");
+		GameRegistry.registerBlock(solarPanelEnchantedII, InfomationSolar.class, "solarEnchantedII");
+		GameRegistry.registerBlock(solarPanelEnchantedIII, InfomationSolar.class, "solarEnchantedIII");
+
+		GameRegistry.registerTileEntity(TileEntitySolarPanel.class, "tileSolarPanel");
+		GameRegistry.registerTileEntity(TileEntitySolarPanel.Basic.class, "tileSolarBasic");
+		GameRegistry.registerTileEntity(TileEntitySolarPanel.BasicI.class, "tileSolarBasicI");
+		GameRegistry.registerTileEntity(TileEntitySolarPanel.BasicII.class, "tileSolarBasicII");
+		GameRegistry.registerTileEntity(TileEntitySolarPanel.BasicIII.class, "tileSolarBasicIII");
+
+		GameRegistry.registerTileEntity(TileEntitySolarPanel.Advanced.class, "tileSolarAdvanced");
+		GameRegistry.registerTileEntity(TileEntitySolarPanel.AdvancedI.class, "tileSolarAdvancedI");
+		GameRegistry.registerTileEntity(TileEntitySolarPanel.AdvancedII.class, "tileSolarAdvancedII");
+		GameRegistry.registerTileEntity(TileEntitySolarPanel.AdvancedIII.class, "tileSolarAdvancedIII");
+
+		GameRegistry.registerTileEntity(TileEntitySolarPanel.Enchanted.class, "tileSolarEnchanted");
+		GameRegistry.registerTileEntity(TileEntitySolarPanel.EnchantedI.class, "tileSolarEnchantedI");
+		GameRegistry.registerTileEntity(TileEntitySolarPanel.EnchantedII.class, "tileSolarEnchantedII");
+		GameRegistry.registerTileEntity(TileEntitySolarPanel.EnchantedIII.class, "tileSolarEnchantedIII");
 
 		//ブロック
 		GameRegistry.registerBlock(blockOfSteel, "fmr.blockOfSteel");

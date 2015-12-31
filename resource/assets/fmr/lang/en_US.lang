@@ -1,6 +1,19 @@
 #en_Us.lang
 itemGroup.FoodMachineryRevolution=Food Machinery Revolution
 
+info.fmr.shiftkey.hold=Press
+info.fmr.controlkey.hold=Press
+
+info.fmr.shiftkey=LShift
+info.fmr.controlkey=LControl
+
+info.fmr.shiftkey.down=for Info
+info.fmr.controlkey.down=for Info
+
+info.fmr.solarpanel.generation=Max Generation
+info.fmr.solarpanel.transfer=Max Transfer Rate
+info.fmr.solarpanel.capacity=Max Capacity
+
 item.fmr.upgrade_speed.name=Speed Upgrade
 item.fmr.upgrade_fuel.name=Fuel Upgrade
 item.fmr.voidBucSteel.name=Steel Void Bucket
@@ -17,3 +30,16 @@ tile.fmr.FoodFurnace_Idle.name=Food Furnace
 tile.fmr.FoodFurnace_Active.name=Food Furnace
 tile.fmr.blockOfSteel.name=Block of Steel
 tile.fmr.fCrafting.name=§dFood Crafting Table
+
+tile.fmr:solarEnchanted.name=Solar Panel [§bEnchanted§r]
+tile.fmr:solarAdvancedIII.name=Solar Panel [§bAdvancedIII§r]
+tile.fmr:solarEnchantedIII.name=Solar Panel [§bEnchantedIII§r]
+tile.fmr:solarEnchantedI.name=Solar Panel[§bEnchantedI§r]
+tile.fmr:solarBasicI.name=Solar Panel [§bBasicI§r]
+tile.fmr:solarBasicIII.name=Solar Panel [§bBasicIII§r]
+tile.fmr:solarEnchantedII.name=Solar Panel [§bEnchantedII§r]
+tile.fmr:solarBasic.name=Solar Panel [§bBasic§r]
+tile.fmr:solarAdvancedI.name=Solar Panel [§bAdvancedI§r]
+tile.fmr:solarBasicII.name=Solar Panel [§bBasicII§r]
+tile.fmr:solarAdvanced.name=Solar Panel [§bAdvanced§r]
+tile.fmr:solarAdvancedII.name=Solar Panel [§bAdvancedII§r]
