@@ -17,6 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import util.Utils;
 
 public class SolarPanel extends BlockContainer{
 
@@ -102,21 +103,21 @@ public class SolarPanel extends BlockContainer{
 
 	  public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float f1, float f2, float f3)
 	  {
-	    /*if (player.getCurrentEquippedItem() != null) {
-	      if (Utils.hasUsableWrench(player, x, y, z))
-	      {
-	        if ((!world.isRemote) && (player.isSneaking()))
-	        {
-	          dismantleBlock(world, x, y, z);
+		  if (player.getCurrentEquippedItem() != null) {
+		      if (Utils.hasUsableWrench(player, x, y, z))
+		      {
+		        if ((!world.isRemote) && (player.isSneaking()))
+		        {
+		          dismantleBlock(world, x, y, z);
 
-	          return true;
-	        }
-	        world.notifyBlocksOfNeighborChange(x, y, z, this);
+		          return true;
+		        }
+		        world.notifyBlocksOfNeighborChange(x, y, z, this);
 
-	        return false;
-	      }
-	    }*/
-	    return false;
+		        return false;
+		      }
+		    }
+		    return false;
 	  }
 
 	  public void dismantleBlock(World world, int x, int y, int z)

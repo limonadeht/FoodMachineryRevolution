@@ -2,12 +2,24 @@ package util;
 
 import org.lwjgl.input.Keyboard;
 
+import buildcraft.api.tools.IToolWrench;
 import cofh.api.energy.IEnergyContainerItem;
+import cpw.mods.fml.common.ModAPIManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
 public class Utils {
+
+	  public static boolean hasUsableWrench(EntityPlayer player, int x, int y, int z)
+	  {
+	    ItemStack tool = player.getCurrentEquippedItem();
+	    if ((ModAPIManager.INSTANCE.hasAPI("BuildCraftAPI|tools")) && ((tool.getItem() instanceof IToolWrench)) && (((IToolWrench)tool.getItem()).canWrench(player, x, y, z))) {
+	      return true;
+	    }
+	    return false;
+	  }
 
 	  public static boolean isControlKeyDown()
 	  {

@@ -6,6 +6,7 @@ import common.block.BlockOfSteel;
 import common.block.FoodCraftTable;
 import common.block.FoodFurnace;
 import common.block.SolarPanel;
+import common.block.ThermalGenerator;
 import common.food.Cabbage;
 import common.food.Meat;
 import common.food.RawMeat;
@@ -17,6 +18,7 @@ import common.item.IngotTin;
 import common.item.UpgradeFuel;
 import common.item.UpgradeSpeed;
 import common.item.VoidBucketSteel;
+import common.item.Wrench;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -49,6 +51,7 @@ public class MaterialRegister {
 	public static Item ingotSteel;
 	public static Item ingotCopper;
 	public static Item ingotTin;
+	public static Item wrench;
 
 	public static Item cabbage;
 	public static Item tomato;
@@ -63,6 +66,8 @@ public class MaterialRegister {
 
 	public static Block FoodFurnace_Active;
 	public static Block FoodFurnace_Idle;
+	public static Block ThermalGenerator_Active;
+	public static Block ThermalGenerator_Idle;
 	public static Block foodCraftTable;
 
 	public static Block blockOfSteel;
@@ -88,6 +93,7 @@ public class MaterialRegister {
 		//アイテム
 		GameRegistry.registerItem(voidBucketSteel, "fmr.voidBucSteel");
 		GameRegistry.registerItem(dishEmpty, "fmr.dishEmpty");
+		GameRegistry.registerItem(wrench, "fmr.wrench");
 
 		//食べ物素材
 		GameRegistry.registerItem(cabbage, "fmr.cabbage");
@@ -103,6 +109,8 @@ public class MaterialRegister {
 		//機械
 		GameRegistry.registerBlock(FoodFurnace_Idle, "fmr.FoodFurnace_Idle");
 		GameRegistry.registerBlock(FoodFurnace_Active, "fmr.FoodFurnace_Active");
+		GameRegistry.registerBlock(ThermalGenerator_Active, "fmr.tGenerator_Active");
+		GameRegistry.registerBlock(ThermalGenerator_Idle, "fmr.tGenerator_Idle");
 
 		GameRegistry.registerBlock(solarPanelBasic, InfomationSolar.class, "solarBasic");
 		GameRegistry.registerBlock(solarPanelBasicI, InfomationSolar.class, "solarBasicI");
@@ -162,6 +170,7 @@ public class MaterialRegister {
 		rawMeat = new RawMeat().setCreativeTab(FoodMachineryRevolution.tabFMR);
 		meat = new Meat().setCreativeTab(FoodMachineryRevolution.tabFMR);
 		dishEmpty = new DishEmpty().setCreativeTab(FoodMachineryRevolution.tabFMR);
+		wrench = new Wrench().setCreativeTab(FoodMachineryRevolution.tabFMR);
 	}
 
 	static void addTools(){
@@ -175,6 +184,8 @@ public class MaterialRegister {
 		FoodFurnace_Active = new FoodFurnace(true).setBlockName("fmr.FoodFurnace_Active").setCreativeTab(FoodMachineryRevolution.tabFMR);
 		blockOfSteel = new BlockOfSteel().setCreativeTab(FoodMachineryRevolution.tabFMR);
 		foodCraftTable = new FoodCraftTable().setCreativeTab(FoodMachineryRevolution.tabFMR);
+		ThermalGenerator_Active = new ThermalGenerator(true).setBlockName("fmr.tGenerator_Active").setCreativeTab(FoodMachineryRevolution.tabFMR);
+		ThermalGenerator_Idle = new ThermalGenerator(false).setBlockName("fmr.tGenerator_Idle").setCreativeTab(FoodMachineryRevolution.tabFMR);
 	}
 
 	static void addPlants(){

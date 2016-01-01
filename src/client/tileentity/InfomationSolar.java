@@ -55,16 +55,18 @@ public class InfomationSolar extends ItemBlock{
 
 	  public boolean showDurabilityBar(ItemStack itemStack)
 	  {
-	    return true;
+		  //未実装部分。有効化したい時にはtrueを返す
+	    return false;
 	  }
 
-	  public double getDurabilityForDisplay(ItemStack itemStack)
-	  {
-	    SolarPanel solarPanel = (SolarPanel)this.field_150939_a;
-
-	    int energy = solarPanel.getEnergyStored(itemStack);
-	    int maxEnergy = solarPanel.getMaxEnergyStored(itemStack);
-
-	    return 1.0D - energy / maxEnergy;
-	  }
+	  //未実装。
+//	  public double getDurabilityForDisplay(ItemStack itemStack)
+//	  {
+//	    SolarPanel solarPanel = (SolarPanel)this.field_150939_a;
+//
+//	    int energy = solarPanel.getEnergyStored(itemStack);
+//	    int maxEnergy = solarPanel.getMaxEnergyStored(itemStack);
+//
+//	    return 1.0D - energy / maxEnergy;
+//	  }
 }
