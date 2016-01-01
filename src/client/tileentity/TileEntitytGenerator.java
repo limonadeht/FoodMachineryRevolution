@@ -2,6 +2,7 @@ package client.tileentity;
 
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
+import common.block.ThermalGenerator;
 import common.energy.EnergyStorage;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -61,6 +62,7 @@ public class TileEntitytGenerator extends TileEntity implements ISidedInventory,
 
 		if(this.burnTimeRemaining > 0 && energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()){
 			this.burnTimeRemaining -= burnSpeed;
+			ThermalGenerator.updateFoodFurnaceState(this.burnTimeRemaining > 0, worldObj, burnTime, burnSpeed, EPBT);
 			energyStorage.setEnergyStored(energyStorage.getEnergyStored() + Math.min(burnSpeed * EPBT, energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored()));
 		}else if(this.burnTimeRemaining <= 0) tryRefuel();
 
@@ -72,8 +74,6 @@ public class TileEntitytGenerator extends TileEntity implements ISidedInventory,
 				}
 			}
 		}
-
-		detectAndSentChanges(tick % 500 == 0);
 		tick++;
 	}
 
@@ -153,6 +153,11 @@ public class TileEntitytGenerator extends TileEntity implements ISidedInventory,
 			}
 		}
 		return itemstack;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public int getBurnTimeRemainingScaled(int par1) {
+		return this.burnSpeed * par1 / this.burnTimeRemaining;
 	}
 
 	@Override
@@ -264,18 +269,9 @@ public class TileEntitytGenerator extends TileEntity implements ISidedInventory,
 		super.readFromNBT(compound);
 	}
 
-	private void detectAndSentChanges(boolean sendAnyway){
+	/*private void detectAndSentChanges(boolean sendAnyway){
 		if (isBurning != isBurningCach || sendAnyway) isBurningCach = (Boolean) sendObjectToClient(6, 0, isBurning);
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void receiveObjectFromServer(int index, Object object) {
-		if (isBurning != (Boolean) object){
-			isBurning = (Boolean) object;
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		}
-	}
+	}*/
 
 	@Override
 	public Packet getDescriptionPacket() {

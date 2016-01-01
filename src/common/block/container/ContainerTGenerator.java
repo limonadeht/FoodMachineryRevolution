@@ -20,7 +20,7 @@ public class ContainerTGenerator extends Container{
 	public ContainerTGenerator(InventoryPlayer invPlayer, TileEntitytGenerator entity){
 		this.tileentity = entity;
 
-		this.addSlotToContainer(new Slot(entity, 0, 80, 55));
+		this.addSlotToContainer(new Slot(entity, 0, 80, 46));
 
 		for(int i = 0; i < 3; ++i){
 			for(int j = 0; j < 9; ++j){

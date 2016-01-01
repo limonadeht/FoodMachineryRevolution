@@ -1,5 +1,7 @@
 package client.gui;
 
+import java.util.Arrays;
+
 import org.lwjgl.opengl.GL11;
 
 import client.tileentity.TileEntitytGenerator;
@@ -29,12 +31,13 @@ public class GuiThermalGenerator extends GuiContainer{
 		this.ySize = 166;
 	}
 
-	public void drawGuiContainerBackgroundLayer(int per1,int per2){
+	public void drawGuiContainerBackgroundLayer(int mouseX,int mouseY){
 
 		String s = this.tileentity.hasCustomInventoryName() ? this.tileentity.getInventoryName() : I18n.format(this.tileentity.getInventoryName(), new Object[0]);
         this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
 	    this.fontRendererObj.drawString(I18n.format("inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
 
+		this.drawInfomation(mouseX, mouseY);
 	}
 
 	@Override
@@ -42,21 +45,27 @@ public class GuiThermalGenerator extends GuiContainer{
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.renderEngine.bindTexture(bground);
-        int x = (width - xSize) / 2;
-        int y = (height - ySize) / 2;
-        this.drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
+        int k = (this.width - this.xSize) / 2;
+        int l = (this.height - this.ySize) / 2;
+        this.drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
+        int i1;
 
-        /*if (this.tileentity.isBurning())
-        {
-            int i1 = this.tileentity.getBurnTimeRemainingScaled(69);
-            this.drawTexturedModalRect(x + 6, y + 62 + 12 - i1, 178, 69 - i1, 17, i1 + 1);
+        if(this.tileentity.burnTimeRemaining > 0){
+        	i1 = this.tileentity.getBurnTimeRemainingScaled(12);
+        	this.drawTexturedModalRect(k + 56, l + 36 + 12 - i1, 176, 12 - i1, 14, i1 + 2);
+        }
+	}
 
-            int i2 = this.tileentity.getCookProgressScaled(82);
-            this.drawTexturedModalRect(x + 53, y + 35, 0, 167, i2 + 1, 16);
-        }*/
-
-        //int i3 = 69 - ((this.tileentity.waterTank.getCapacity() - this.tileentity.waterTank.getFluidAmount()) / 57);
-        //this.drawTexturedModalRect(x + 34, y + 62 + 12 - i3, 178, 141 - i3, 17, i3 + 1);
+	private void drawInfomation(int x, int y)
+	{
+		int minX = guiLeft + 147;
+		int maxX = guiLeft + 162;
+		int minY = guiTop + 17;
+		int maxY = guiTop + 66;
+		if(x >= minX && x <= maxX && y >= minY && y <= maxX)
+		{
+			this.drawHoveringText(Arrays.asList("This is Crafting Tables!"), x -guiLeft - 6, y - guiTop, fontRendererObj);
+		}
 	}
 
 	@Override
