@@ -1,7 +1,7 @@
 # Food Machinery Revolution
 Welcome to the FMR repository.
 
-This is Mod a Based on adding "Durability Food" to the game.
+This is Mod a Based on adding "Durability Food" and "Basic Machines" to the game.
 
 ■What's FMR?
 Food Machinery Revolution、通称(?)「(JP)食品機械革命」。
