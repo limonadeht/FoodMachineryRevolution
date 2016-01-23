@@ -28,10 +28,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntitytGenerator extends TileEntity implements ISidedInventory, IEnergyProvider{
 
-	private String TGenerator;
-
 	private EnergyStorage energyStorage;
 	private int energyGeneration;
+	public boolean dummy = false;
 
 	public int burnTime = 1;
 	public int burnTimeRemaining = 0;
@@ -156,8 +155,8 @@ public class TileEntitytGenerator extends TileEntity implements ISidedInventory,
 	}
 
 	@SideOnly(Side.CLIENT)
-	public int getBurnTimeRemainingScaled(int par1) {
-		return this.burnSpeed * par1 / this.burnTimeRemaining;
+	public int getBurnTimeRemainingScaled(int par1){
+		return this.burnTimeRemaining * par1;
 	}
 
 	@Override
@@ -248,6 +247,7 @@ public class TileEntitytGenerator extends TileEntity implements ISidedInventory,
 
 		compound.setInteger("BurnTime", burnTime);
 		compound.setInteger("BurnTimeRemaining", burnTimeRemaining);
+		compound.setBoolean("dummy", dummy);
 		energyStorage.writeToNBT(compound);
 
 		//super.writeToNBT(compound);
@@ -264,6 +264,7 @@ public class TileEntitytGenerator extends TileEntity implements ISidedInventory,
 
 		burnTime = compound.getInteger("BurnTime");
 		burnTimeRemaining = compound.getInteger("BurnTimeRemaining");
+		dummy = compound.getBoolean("dummy");
 		energyStorage.readFromNBT(compound);
 
 		super.readFromNBT(compound);

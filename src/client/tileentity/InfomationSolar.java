@@ -17,6 +17,7 @@ public class InfomationSolar extends ItemBlock{
 		super(block);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean bool)
 	  {
 	    SolarPanel solarPanel = (SolarPanel)this.field_150939_a;

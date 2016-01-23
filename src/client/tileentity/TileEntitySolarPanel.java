@@ -80,16 +80,18 @@ public class TileEntitySolarPanel extends TileEntityBase implements IEnergyHandl
 	    }
 	  }
 
-	protected void loadDataFromNBT(NBTTagCompound nbtTagCompound)
+	@Override
+	public void readCustomNBT(NBTTagCompound nbt, boolean descPacket)
 	  {
-	    this.energyGeneration = nbtTagCompound.getInteger("EnergyGeneration");
-	    this.energyStorage.readFromNBT(nbtTagCompound);
+	    this.energyGeneration = nbt.getInteger("EnergyGeneration");
+	    this.energyStorage.readFromNBT(nbt);
 	  }
 
-	protected void addDataToNBT(NBTTagCompound nbtTagCompound)
+	@Override
+	public void writeCustomNBT(NBTTagCompound nbt, boolean descPacket)
 	  {
-	    nbtTagCompound.setInteger("EnergyGeneration", this.energyGeneration);
-	    this.energyStorage.writeToNBT(nbtTagCompound);
+	    nbt.setInteger("EnergyGeneration", this.energyGeneration);
+	    this.energyStorage.writeToNBT(nbt);
 	  }
 
 	  public boolean canConnectEnergy(ForgeDirection from)

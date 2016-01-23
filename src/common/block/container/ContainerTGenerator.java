@@ -35,7 +35,7 @@ public class ContainerTGenerator extends Container{
 
 	public void addCrafttingToCrafters(ICrafting icrafting){
 		super.addCraftingToCrafters(icrafting);
-		icrafting.sendProgressBarUpdate(this, 1, this.tileentity.burnTime);
+		icrafting.sendProgressBarUpdate(this, 1, this.tileentity.burnTimeRemaining);
 		//icrafting.sendProgressBarUpdate(this, 2, this.tileentity.currentItemBurnTime);
 	}
 
@@ -47,7 +47,7 @@ public class ContainerTGenerator extends Container{
 	public void updateProgressBar(int par1, int par2){
 		if (par1 == 1)
 		{
-			this.tileentity.burnTime = par2;
+			this.tileentity.burnTimeRemaining = par2;
 		}
 	}
 

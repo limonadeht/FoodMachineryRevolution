@@ -1,37 +1,39 @@
 package common;
 
 import client.tileentity.InfomationSolar;
+import client.tileentity.InfomationTeleporter;
 import client.tileentity.TileEntitySolarPanel;
+import client.tileentity.TileEntityTeleporter;
 import common.block.BlockOfSteel;
+import common.block.Cable;
+import common.block.FluidPipe;
 import common.block.FoodCraftTable;
 import common.block.FoodFurnace;
+import common.block.ResourcePortal;
 import common.block.SolarPanel;
+import common.block.Teleporter;
 import common.block.ThermalGenerator;
-import common.food.Cabbage;
-import common.food.Meat;
-import common.food.RawMeat;
-import common.food.Tomato;
 import common.item.DishEmpty;
-import common.item.IngotCopper;
-import common.item.IngotSteel;
-import common.item.IngotTin;
+import common.item.ItemBase;
 import common.item.UpgradeFuel;
 import common.item.UpgradeSpeed;
 import common.item.VoidBucketSteel;
 import common.item.Wrench;
+import common.item.armor.RevolutionArmor;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
 
-/*
- * https://github.com/defeatedcrow/AppleMilkTea2_1.7.10/blob/master/java/mods/defeatedcrow/common/MaterialRegister.java#L942
- * 参考までに、出来るだけスッキリ綺麗なコードに
- */
 public class MaterialRegister {
 
 	public static MaterialRegister instance = new MaterialRegister();
+
+	public static ArmorMaterial REVOLUTIONARMOR = EnumHelper.addArmorMaterial("REVOLUTIONARMOR", -1, new int[] { 3, 8, 6, 3 }, 30);
 
 	public static final Block solarPanelBasic = new SolarPanel.Basic("solarBasic", 8);
 	public static final Block solarPanelBasicI = new SolarPanel.BasicI("solarBasicI", 16);
@@ -48,15 +50,13 @@ public class MaterialRegister {
 	public static final Block solarPanelEnchantedII = new SolarPanel.EnchantedII("solarEnchantedII", 8192);
 	public static final Block solarPanelEnchantedIII = new SolarPanel.EnchantedIII("solarEnchantedIII", 16384);
 
-	public static Item ingotSteel;
-	public static Item ingotCopper;
-	public static Item ingotTin;
-	public static Item wrench;
+	public static ItemArmor revolutionHelmet;
+	public static ItemArmor revolutionChestPlate;
+	public static ItemArmor revolutionLeggins;
+	public static ItemArmor revolutionBoots;
 
-	public static Item cabbage;
-	public static Item tomato;
-	public static Item rawMeat;
-	public static Item meat;
+	public static Item itemMetal;
+	public static Item wrench;
 
 	public static Item voidBucketSteel;
 	public static Item dishEmpty;
@@ -69,6 +69,10 @@ public class MaterialRegister {
 	public static Block ThermalGenerator_Active;
 	public static Block ThermalGenerator_Idle;
 	public static Block foodCraftTable;
+	public static Block resourcePortal;
+	public static Block teleporter;
+	public static Block cableEnergy;
+	public static Block fluidPipe;
 
 	public static Block blockOfSteel;
 
@@ -81,10 +85,6 @@ public class MaterialRegister {
 
 		OreDictionary.registerOre("dishEmpty", new ItemStack(dishEmpty));
 
-		OreDictionary.registerOre("ingotSteel", new ItemStack(ingotSteel));
-		OreDictionary.registerOre("ingotCopper", new ItemStack(ingotCopper));
-		OreDictionary.registerOre("ingotTin", new ItemStack(ingotTin));
-
 		OreDictionary.registerOre("fmrFoodFurnace", FoodFurnace_Active);
 		OreDictionary.registerOre("fmrFoodFurnace", FoodFurnace_Idle);
 	}
@@ -95,22 +95,24 @@ public class MaterialRegister {
 		GameRegistry.registerItem(dishEmpty, "fmr.dishEmpty");
 		GameRegistry.registerItem(wrench, "fmr.wrench");
 
+		//防具
+
 		//食べ物素材
-		GameRegistry.registerItem(cabbage, "fmr.cabbage");
-		GameRegistry.registerItem(tomato, "fmr.tomato");
-		GameRegistry.registerItem(rawMeat, "fmr.rawMeat");
-		GameRegistry.registerItem(meat, "fmr.meat");
 
 		//インゴット
-		GameRegistry.registerItem(ingotSteel, "fmr.ingotSteel");
-		GameRegistry.registerItem(ingotCopper, "fmr.ingotCopper");
-		GameRegistry.registerItem(ingotTin, "fmr.ingotTin");
 
 		//機械
 		GameRegistry.registerBlock(FoodFurnace_Idle, "fmr.FoodFurnace_Idle");
 		GameRegistry.registerBlock(FoodFurnace_Active, "fmr.FoodFurnace_Active");
 		GameRegistry.registerBlock(ThermalGenerator_Active, "fmr.tGenerator_Active");
 		GameRegistry.registerBlock(ThermalGenerator_Idle, "fmr.tGenerator_Idle");
+		GameRegistry.registerBlock(resourcePortal, "fmr.resourcePortal");
+		GameRegistry.registerBlock(teleporter, InfomationTeleporter.class, "fmr.teleporter");
+
+		GameRegistry.registerBlock(cableEnergy, "fmr.blockCable");
+		GameRegistry.registerBlock(fluidPipe, "fmr.blockCable.1");
+
+		GameRegistry.registerTileEntity(TileEntityTeleporter.class, "fmr.teleporter");
 
 		GameRegistry.registerBlock(solarPanelBasic, InfomationSolar.class, "solarBasic");
 		GameRegistry.registerBlock(solarPanelBasicI, InfomationSolar.class, "solarBasicI");
@@ -150,6 +152,8 @@ public class MaterialRegister {
 
 		//植物 作物系
 
+		//モンスター
+
 		//機械アップグレード
 		GameRegistry.registerItem(upgrade_speed, "fmr.upgrade_speed");
 		GameRegistry.registerItem(upgrade_fuel, "fmr.upgrade_fuel");
@@ -162,15 +166,28 @@ public class MaterialRegister {
 		upgrade_speed = new UpgradeSpeed().setCreativeTab(FoodMachineryRevolution.tabFMR);
 		upgrade_fuel = new UpgradeFuel().setCreativeTab(FoodMachineryRevolution.tabFMR);
 		voidBucketSteel = new VoidBucketSteel().setCreativeTab(FoodMachineryRevolution.tabFMR);
-		ingotSteel = new IngotSteel().setCreativeTab(FoodMachineryRevolution.tabFMR);
-		ingotCopper = new IngotCopper().setCreativeTab(FoodMachineryRevolution.tabFMR);
-		ingotTin = new IngotTin().setCreativeTab(FoodMachineryRevolution.tabFMR);
-		cabbage = new Cabbage().setCreativeTab(FoodMachineryRevolution.tabFMR);
-		tomato = new Tomato().setCreativeTab(FoodMachineryRevolution.tabFMR);
-		rawMeat = new RawMeat().setCreativeTab(FoodMachineryRevolution.tabFMR);
-		meat = new Meat().setCreativeTab(FoodMachineryRevolution.tabFMR);
 		dishEmpty = new DishEmpty().setCreativeTab(FoodMachineryRevolution.tabFMR);
 		wrench = new Wrench().setCreativeTab(FoodMachineryRevolution.tabFMR);
+
+		itemMetal = new ItemBase("metalIngot", 64,
+												/*Ingot*/
+												"ingotSteel", "ingotCopper", "ingotTin", "ingotLead", "ingotSilver",
+												"ingotElectrum", "ingotNickel", "ingotAluminium",
+
+												/*Dust*/
+												"dustSteel", "dustCopper", "dustTin", "dustLead", "dustSilver",
+												"dustElectrum", "dustNickel", "dustAluminium",
+												"dustIron", "dustGold", "dustCoal", "dustQuartz",
+
+												/*Nugget*/
+												"nuggetSteel", "nuggetCopper", "nuggetTin", "nuggetLead", "nuggetSilver",
+												"nuggetElectrum", "nuggetNickel", "nuggetAluminium",
+												"nuggetIron", "nuggetGold");
+
+		revolutionHelmet = new RevolutionArmor(REVOLUTIONARMOR, 0, "revHelm");
+		revolutionChestPlate = new RevolutionArmor(REVOLUTIONARMOR, 1, "revChest");
+		revolutionLeggins = new RevolutionArmor(REVOLUTIONARMOR, 2, "revLeg");
+		revolutionBoots = new RevolutionArmor(REVOLUTIONARMOR, 3, "revBoots");
 	}
 
 	static void addTools(){
@@ -186,6 +203,11 @@ public class MaterialRegister {
 		foodCraftTable = new FoodCraftTable().setCreativeTab(FoodMachineryRevolution.tabFMR);
 		ThermalGenerator_Active = new ThermalGenerator(true).setBlockName("fmr.tGenerator_Active").setCreativeTab(FoodMachineryRevolution.tabFMR);
 		ThermalGenerator_Idle = new ThermalGenerator(false).setBlockName("fmr.tGenerator_Idle").setCreativeTab(FoodMachineryRevolution.tabFMR);
+		resourcePortal = new ResourcePortal(100000).setCreativeTab(FoodMachineryRevolution.tabFMR);
+		teleporter = new Teleporter().setCreativeTab(FoodMachineryRevolution.tabFMR);
+
+		cableEnergy = new Cable().setCreativeTab(FoodMachineryRevolution.tabFMR);
+		fluidPipe = new FluidPipe().setCreativeTab(FoodMachineryRevolution.tabFMR);
 	}
 
 	static void addPlants(){

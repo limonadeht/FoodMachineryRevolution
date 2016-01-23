@@ -23,7 +23,7 @@ public class FoodMachineryRevolution {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e){
-		MaterialRegister.instance.registOreDic(); //一部登録漏れが出るため、一番最初の方で優先的にLoadする
+		MaterialRegister.instance.registOreDic(); //一部登録漏れが出るため、一番最初の方で優先的にLoad
 		System.out.println("OreDictionaly Loaded Succeccfully.");
 		System.out.println("*****************************************");
 		System.out.println("* Food Machinery Revolution [Alpha-1.0] *");
@@ -32,11 +32,27 @@ public class FoodMachineryRevolution {
 		System.out.println("*****************************************");
 	}
 
+	@SuppressWarnings("static-access")
 	@EventHandler
 	public void Init(FMLPreInitializationEvent e){
 		MaterialRegister.addBlocks();
+		System.out.println("Loaded Blocks");
+		MaterialRegister.addFoods();
+		System.out.println("Loaded Foods");
+		MaterialRegister.addMachines();
+		System.out.println("Loaded Machines");
 		MaterialRegister.addItem();
+		System.out.println("Loaded Items");
+		MaterialRegister.addMaterials();
+		System.out.println("Loaded Materials");
+		MaterialRegister.addPlants();
+		System.out.println("Loaded Plants");
+		MaterialRegister.addTools();
+		System.out.println("Loaded Tools");
 		MaterialRegister.instance.load();
+
+		serverproxy.registerRenderers();
+		serverproxy.registerTileEntitys();
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this.Instance, new GuiHandler());
 	}

@@ -6,34 +6,27 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityBase extends TileEntity{
+public abstract class TileEntityBase extends TileEntity{
 
-	public void readFromNBT(NBTTagCompound nbtTagCompound)
-	  {
-	    super.readFromNBT(nbtTagCompound);
-	    loadDataFromNBT(nbtTagCompound);
-	  }
+	public void readFromNBT(NBTTagCompound nbtTagCompound){
+		super.readFromNBT(nbtTagCompound);
+		readCustomNBT(nbtTagCompound, false);
+	}
+	public abstract void readCustomNBT(NBTTagCompound nbt, boolean descPacket);
 
-	  public void writeToNBT(NBTTagCompound nbtTagCompound)
-	  {
-	    super.writeToNBT(nbtTagCompound);
-	    addDataToNBT(nbtTagCompound);
-	  }
+	public void writeToNBT(NBTTagCompound nbtTagCompound){
+		super.writeToNBT(nbtTagCompound);
+		writeCustomNBT(nbtTagCompound, false);
+		}
+	public abstract void writeCustomNBT(NBTTagCompound nbt, boolean descPacket);
 
-	  protected void addDataToNBT(NBTTagCompound nbtTagCompound) {}
+	public Packet getDescriptionPacket(){
+		NBTTagCompound nbttagcompound = new NBTTagCompound();
+		this.writeCustomNBT(nbttagcompound, true);
+		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, nbttagcompound);
+	}
 
-	  protected void loadDataFromNBT(NBTTagCompound nbtTagCompound) {}
-
-	  public Packet getDescriptionPacket()
-	  {
-	    NBTTagCompound nbtTagCompound = new NBTTagCompound();
-	    addDataToNBT(nbtTagCompound);
-	    return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbtTagCompound);
-	  }
-
-	  public void onDataPacket(NetworkManager networkManager, S35PacketUpdateTileEntity packet)
-	  {
-	    NBTTagCompound nbtTagCompound = packet.func_148857_g();
-	    loadDataFromNBT(nbtTagCompound);
-	  }
+	public void onDataPacket(NetworkManager networkManager, S35PacketUpdateTileEntity packet){
+		this.readCustomNBT(packet.func_148857_g(), true);
+	}
 }
