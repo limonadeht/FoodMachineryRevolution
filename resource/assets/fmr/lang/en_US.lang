@@ -64,6 +64,8 @@ tile.fmr.blockOfSteel.name=Block of Steel
 tile.fmr.fCrafting.name=§dFood Crafting Table
 tile.fmr.blockCable.name=Dummy Cable
 tile.fmr.blockCable.1.name=Fluid Pipe
+tile.hydroGenerator.name=Hydroelectric Generator
+tile.hydroGeneratorAdv.name=§bAdvanced Hydroelectric Generator
 
 tile.fmr:solarEnchanted.name=Solar Panel [§bEnchanted§r]
 tile.fmr:solarAdvancedIII.name=Solar Panel [§bAdvancedIII§r]

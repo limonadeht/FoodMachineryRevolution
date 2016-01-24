@@ -1,7 +1,10 @@
 package common;
 
+import client.tileentity.InfomationHydroGenerator;
 import client.tileentity.InfomationSolar;
 import client.tileentity.InfomationTeleporter;
+import client.tileentity.InfomationWindGenerator;
+import client.tileentity.TileEntityHydroelectricGenerator;
 import client.tileentity.TileEntitySolarPanel;
 import client.tileentity.TileEntityTeleporter;
 import common.block.BlockOfSteel;
@@ -9,10 +12,13 @@ import common.block.Cable;
 import common.block.FluidPipe;
 import common.block.FoodCraftTable;
 import common.block.FoodFurnace;
+import common.block.HydroelectricGenerator;
 import common.block.ResourcePortal;
 import common.block.SolarPanel;
 import common.block.Teleporter;
 import common.block.ThermalGenerator;
+import common.block.WindGenerator;
+import common.block.WindRotor;
 import common.item.DishEmpty;
 import common.item.ItemBase;
 import common.item.UpgradeFuel;
@@ -22,6 +28,7 @@ import common.item.Wrench;
 import common.item.armor.RevolutionArmor;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
@@ -34,6 +41,12 @@ public class MaterialRegister {
 	public static MaterialRegister instance = new MaterialRegister();
 
 	public static ArmorMaterial REVOLUTIONARMOR = EnumHelper.addArmorMaterial("REVOLUTIONARMOR", -1, new int[] { 3, 8, 6, 3 }, 30);
+
+	public static final Block hydroelectricGenerator = new HydroelectricGenerator("hydroGenerator", 50);
+	public static final Block hydroelectricGeneratorAdvanced = new HydroelectricGenerator("hydroGeneratorAdv", 80);
+
+	public static final Block windGenerator = new WindGenerator("fmr.windGenerator", 10, Material.iron);
+	public static final Block windGeneratorWood = new WindGenerator.Wood("fmr.windGeneratorWood", 5, Material.wood);
 
 	public static final Block solarPanelBasic = new SolarPanel.Basic("solarBasic", 8);
 	public static final Block solarPanelBasicI = new SolarPanel.BasicI("solarBasicI", 16);
@@ -73,6 +86,7 @@ public class MaterialRegister {
 	public static Block teleporter;
 	public static Block cableEnergy;
 	public static Block fluidPipe;
+	public static Block windRotor;
 
 	public static Block blockOfSteel;
 
@@ -114,6 +128,14 @@ public class MaterialRegister {
 
 		GameRegistry.registerTileEntity(TileEntityTeleporter.class, "fmr.teleporter");
 
+		GameRegistry.registerBlock(hydroelectricGenerator, InfomationHydroGenerator.class, "hydroGenerator");
+		GameRegistry.registerBlock(hydroelectricGeneratorAdvanced, InfomationHydroGenerator.class, "hydroGeneratorAdv");
+
+		GameRegistry.registerBlock(windGenerator, InfomationWindGenerator.class, "windGenerator");
+		GameRegistry.registerBlock(windGeneratorWood, InfomationWindGenerator.class, "windGeneratorWood");
+
+		GameRegistry.registerBlock(windRotor, "fmr.windRotor");
+
 		GameRegistry.registerBlock(solarPanelBasic, InfomationSolar.class, "solarBasic");
 		GameRegistry.registerBlock(solarPanelBasicI, InfomationSolar.class, "solarBasicI");
 		GameRegistry.registerBlock(solarPanelBasicII, InfomationSolar.class, "solarBasicII");
@@ -129,6 +151,9 @@ public class MaterialRegister {
 		GameRegistry.registerBlock(solarPanelEnchantedI, InfomationSolar.class, "solarEnchantedI");
 		GameRegistry.registerBlock(solarPanelEnchantedII, InfomationSolar.class, "solarEnchantedII");
 		GameRegistry.registerBlock(solarPanelEnchantedIII, InfomationSolar.class, "solarEnchantedIII");
+
+		GameRegistry.registerTileEntity(TileEntityHydroelectricGenerator.class, "tileHydroGenerator");
+		GameRegistry.registerTileEntity(TileEntityHydroelectricGenerator.class, "tileHydroGeneratorAdv");
 
 		GameRegistry.registerTileEntity(TileEntitySolarPanel.class, "tileSolarPanel");
 		GameRegistry.registerTileEntity(TileEntitySolarPanel.Basic.class, "tileSolarBasic");
@@ -205,6 +230,7 @@ public class MaterialRegister {
 		ThermalGenerator_Idle = new ThermalGenerator(false).setBlockName("fmr.tGenerator_Idle").setCreativeTab(FoodMachineryRevolution.tabFMR);
 		resourcePortal = new ResourcePortal(100000).setCreativeTab(FoodMachineryRevolution.tabFMR);
 		teleporter = new Teleporter().setCreativeTab(FoodMachineryRevolution.tabFMR);
+		windRotor = new WindRotor("fmr.windRotor", Material.iron).setCreativeTab(FoodMachineryRevolution.tabFMR);
 
 		cableEnergy = new Cable().setCreativeTab(FoodMachineryRevolution.tabFMR);
 		fluidPipe = new FluidPipe().setCreativeTab(FoodMachineryRevolution.tabFMR);

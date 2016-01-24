@@ -2,7 +2,7 @@ package client.render;
 
 import org.lwjgl.opengl.GL11;
 
-import client.tileentity.TileEntityFLuidPipe;
+import cofh.api.energy.IEnergyHandler;
 import common.model.ModelFluidPipe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -21,8 +21,8 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer{
 		boolean[][] sides = new boolean[2][6];
 		boolean[] cables = new boolean[6];
 		for(ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS){
-			sides[meta][direction.ordinal()] = tileentity.getWorldObj().getTileEntity(tileentity.xCoord + direction.offsetX, tileentity.yCoord + direction.offsetY, tileentity.zCoord + direction.offsetZ) instanceof TileEntityFLuidPipe  && ((TileEntityFLuidPipe ) tileentity.getWorldObj().getTileEntity(tileentity.xCoord + direction.offsetX, tileentity.yCoord + direction.offsetY, tileentity.zCoord + direction.offsetZ)).getFluidAmount() == 0;
-			cables [direction.ordinal()] = tileentity.getWorldObj().getTileEntity(tileentity.xCoord + direction.offsetX, tileentity.yCoord + direction.offsetY, tileentity.zCoord + direction.offsetZ) instanceof TileEntityFLuidPipe  && ((TileEntityFLuidPipe ) tileentity.getWorldObj().getTileEntity(tileentity.xCoord + direction.offsetX, tileentity.yCoord + direction.offsetY, tileentity.zCoord + direction.offsetZ)) instanceof TileEntityFLuidPipe;
+			sides[meta][direction.ordinal()] = tileentity.getWorldObj().getTileEntity(tileentity.xCoord + direction.offsetX, tileentity.yCoord + direction.offsetY, tileentity.zCoord + direction.offsetZ)instanceof IEnergyHandler  && ((IEnergyHandler) tileentity.getWorldObj().getTileEntity(tileentity.xCoord + direction.offsetX, tileentity.yCoord + direction.offsetY, tileentity.zCoord + direction.offsetZ)).canConnectEnergy(direction);
+			cables [direction.ordinal()] = tileentity.getWorldObj().getTileEntity(tileentity.xCoord + direction.offsetX, tileentity.yCoord + direction.offsetY, tileentity.zCoord + direction.offsetZ)instanceof IEnergyHandler  && ((IEnergyHandler)tileentity.getWorldObj().getTileEntity(tileentity.xCoord + direction.offsetX, tileentity.yCoord + direction.offsetY, tileentity.zCoord + direction.offsetZ))instanceof IEnergyHandler;
 		}
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) (xOffset + 0.5F), (float) (yOffset + 1.5F), (float) (zOffset + 0.5F));

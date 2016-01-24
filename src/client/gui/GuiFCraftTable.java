@@ -51,7 +51,7 @@ public class GuiFCraftTable extends GuiContainer{
 		int maxX = guiLeft + 173;
 		int minY = guiTop + 0;
 		int maxY = guiTop + 0;
-		if(x >= minX && x <= maxX && y >= minY && y <= maxX)
+		if(x >= minX && x <= maxX && y >= minY && y <= maxY)
 		{
 			this.drawHoveringText(Arrays.asList("This is Crafting Tables!"), x -guiLeft - 6, y - guiTop, fontRendererObj);
 		}

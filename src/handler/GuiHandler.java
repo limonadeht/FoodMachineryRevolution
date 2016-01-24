@@ -2,12 +2,15 @@ package handler;
 
 import client.gui.GuiFCraftTable;
 import client.gui.GuiFFurnace;
+import client.gui.GuiHydroGenerator;
 import client.gui.GuiThermalGenerator;
 import client.tileentity.TileEntityFFurnace;
+import client.tileentity.TileEntityHydroelectricGenerator;
 import client.tileentity.TileEntitytGenerator;
 import common.MaterialRegister;
 import common.block.container.ContainerFCraftingTable;
 import common.block.container.ContainerFFurnace;
+import common.block.container.ContainerHydroGenerator;
 import common.block.container.ContainerTGenerator;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,6 +29,9 @@ public class GuiHandler implements IGuiHandler{
 		if(entity instanceof TileEntitytGenerator){
 			return new ContainerTGenerator(player.inventory, (TileEntitytGenerator)entity);
 		}
+		if(entity instanceof TileEntityHydroelectricGenerator){
+			return new ContainerHydroGenerator(player.inventory, (TileEntityHydroelectricGenerator)entity);
+		}
 
 		if(ID == 1){
 			return ID == 1 && world.getBlock(x, y, z) == MaterialRegister.foodCraftTable ? new ContainerFCraftingTable(player.inventory, world, x, y, z) : null;
@@ -42,6 +48,9 @@ public class GuiHandler implements IGuiHandler{
 		}
 		if(entity instanceof TileEntitytGenerator){
 			return new GuiThermalGenerator(player.inventory, (TileEntitytGenerator)entity);
+		}
+		if(entity instanceof TileEntityHydroelectricGenerator){
+			return new GuiHydroGenerator(player.inventory, (TileEntityHydroelectricGenerator)entity);
 		}
 
 		if(ID == 1){
