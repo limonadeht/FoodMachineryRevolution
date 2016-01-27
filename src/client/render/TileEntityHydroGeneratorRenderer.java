@@ -19,8 +19,6 @@ public class TileEntityHydroGeneratorRenderer extends TileEntitySpecialRenderer{
 		GL11.glTranslatef((float) (xOffset + 0.5F), (float) (yOffset + 1.5F), (float) (zOffset + 0.5F));
 		GL11.glRotatef(180, 0, 0, 1);
 
-		int meta = tileentity.getBlockMetadata();
-
 		Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE);
 		ModelHydroGenerator.instance.renderModel(0.0625F);
 

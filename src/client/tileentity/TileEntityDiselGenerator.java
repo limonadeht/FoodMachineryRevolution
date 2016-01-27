@@ -6,10 +6,13 @@ import common.MaterialRegister;
 import common.block.DieselTank;
 import common.energy.EnergyStorage;
 import common.item.ItemDieselGenerator;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -30,6 +33,12 @@ public class TileEntityDiselGenerator extends TileEntityBase implements IEnergyH
 		this.energyGeneration = energyGeneration;
 		this.energyStorage = new EnergyStorage(energyCapacity, energyTransfer);
 	}
+
+	@SideOnly(Side.CLIENT)
+	public IIcon getFluidIcon(){
+		Fluid fluid = this.productTank.getFluidType();
+    	return fluid != null ? fluid.getIcon() : null;
+    }
 
 	public void updateEntity(){
 		if(!this.worldObj.isRemote){
@@ -185,6 +194,7 @@ public class TileEntityDiselGenerator extends TileEntityBase implements IEnergyH
 	//
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+		//if (resource == null || resource.getFluid() == null){
 		if (resource == null || resource.getFluid() == null){
 			return 0;
 		}

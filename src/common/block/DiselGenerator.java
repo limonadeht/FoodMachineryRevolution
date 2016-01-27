@@ -14,8 +14,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import util.Utils;
@@ -38,6 +40,18 @@ public class DiselGenerator extends BlockContainer{
 		this.energyCapacity = (energyGeneration * 1000);
 		this.setStepSound(soundTypeMetal);
 	}
+
+	public boolean isOpaqueCube(){
+		return false;
+	}
+
+	public boolean renderAsNormalBlock(){
+		 return false;
+	}
+
+	public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side){
+        return false;
+    }
 
 	public int getEnergyGeneration(){
 		return this.energyGeneration;
@@ -80,14 +94,17 @@ public class DiselGenerator extends BlockContainer{
 	}
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float f1, float f2, float f3){
-		if(!player.isSneaking()){
-			player.openGui(FoodMachineryRevolution.Instance, 5, world, x, y, z);
-			return true;
-		}
+
+		TileEntityDiselGenerator tile = (TileEntityDiselGenerator)world.getTileEntity(x, y, z);
 
 		if(player.getCurrentEquippedItem() != null){
 			if(Utils.hasUsableWrench(player, x, y, z))
 		      {
+				/*if(tile.productTank.getFluidAmount() > 0 && tile.productTank.getFluidType() == MaterialRegister.fluidBioDiesel){
+					tile.productTank.setAmount(0);
+				}else{
+					return false;
+				}*/
 		        if ((!world.isRemote) && (player.isSneaking()))
 		        {
 		          dismantleBlock(world, x, y, z);
@@ -95,33 +112,35 @@ public class DiselGenerator extends BlockContainer{
 		          return true;
 		        }
 		        world.notifyBlocksOfNeighborChange(x, y, z, this);
-
-		        return false;
 		      }
 		    }
 
-		    TileEntityDiselGenerator tile = (TileEntityDiselGenerator)world.getTileEntity(x, y, z);
-
-		    if(tile == null){
+//		    if(tile == null){
 		    	FluidStack fluid = tile.productTank.getFluid();
 //		    	if(player.inventory.getCurrentItem() == null){
 		    		String s = "";
+		    		String s2 = "";
 		    		if(fluid != null && fluid.getFluid() != null){
-		    			s = "Fluid current in the tab : " + fluid.getFluid().getLocalizedName(fluid);
+		    			s = EnumChatFormatting.GREEN + "Fluid Storage: " + fluid.getFluid().getLocalizedName(fluid) + " " + fluid.amount + " mB";
+		    			s2 = EnumChatFormatting.GREEN + "Energy Storage: " + tile.getEnergyStored() + " / " + tile.getMaxEnergyStored();
 		    		}else{
-		    			s = "No fluid in the tab";
+		    			s = EnumChatFormatting.GREEN + "Not a Fluids.";
+		    			s2 = EnumChatFormatting.GREEN + "Energy Storage: " + tile.getEnergyStored() + " / " + tile.getMaxEnergyStored();
 		    		}
 		    		if (!world.isRemote) player.addChatMessage(new ChatComponentText(s));
+		    		if (!world.isRemote) player.addChatMessage(new ChatComponentText(s2));
 //	        		return true;
 //		    	}
 
+		    	//Noooooooooooo! 爆発します！
+		    	//world.createExplosion(player, x, y, z, 20.0F, true);
 		    	tile.markDirty();
 		        player.inventory.markDirty();
 		        world.markBlockForUpdate(x, y, z);
 
 		        return true;
-		    }
-		    return false;
+//		    }
+//		    return false;
 	}
 
 	public void dismantleBlock(World world, int x, int y, int z)
@@ -134,7 +153,6 @@ public class DiselGenerator extends BlockContainer{
 	    EntityItem entityItem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, itemStack);
 	    TileEntityDiselGenerator tileEntity = (TileEntityDiselGenerator)world.getTileEntity(x, y, z);
 	    int energyStored = tileEntity.getEnergyStored();
-	    int fluidStored = tileEntity.productTank.getFluidAmount();
 	    if (energyStored >= 1)
 	    {
 	      if (itemStack.getTagCompound() == null) {
@@ -203,7 +221,6 @@ public class DiselGenerator extends BlockContainer{
 	      {
 	        TileEntityDiselGenerator tileEntity = (TileEntityDiselGenerator)world.getTileEntity(x, y, z);
 
-	        FluidStack fluid = tileEntity.productTank.getFluid();
 	        tileEntity.setEnergyStored(itemstack.stackTagCompound.getInteger("Energy"));
 
 	        NBTTagCompound itemTag = itemstack.getTagCompound();

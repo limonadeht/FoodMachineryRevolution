@@ -38,10 +38,10 @@ public class ItemDieselGenerator extends ItemBlock implements IFluidContainerIte
 
 		list.add("Disel Power!");
 		if (fluidStack != null && fluidStack.amount > 0){
-			float percent = Math.max(100.0f / fakeTank.getCapacity() * fluidStack.amount, 1);
-			list.add(String.format("%d mB (%.0f%%)", fluidStack.amount, percent));
+			float percent = Math.max(100.0f / fakeTank.getCapacity() * fluidStack.amount / 8, 1);
+			list.add(EnumChatFormatting.GREEN + fluidStack.getLocalizedName() + " " + String.format("%d mB (%.0f%%)", fluidStack.amount, percent));
 		}else{
-			list.add("Not a Fluids.");
+			list.add(EnumChatFormatting.GREEN + "Not a Fluids.");
 		}
 		list.add(generator.getEnergyStored(itemStack) + " / " + generator.getEnergyCapacity() + " RF");
 		if(FoodMachineryRevolution.serverproxy.isShiftKeyDown()){

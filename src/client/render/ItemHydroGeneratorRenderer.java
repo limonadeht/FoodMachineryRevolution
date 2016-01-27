@@ -21,7 +21,7 @@ public class ItemHydroGeneratorRenderer implements IItemRenderer{
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data){
 		GL11.glPushMatrix();
-		GL11.glTranslated(0.5F, 1.5F, 0.5F);
+		GL11.glTranslated(0.5F, 1.4F, 0.5F);
 		GL11.glRotatef(180, 0, 0, 1);
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(TEXTURE);
