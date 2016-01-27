@@ -4,11 +4,13 @@ import client.tileentity.InfomationHydroGenerator;
 import client.tileentity.InfomationSolar;
 import client.tileentity.InfomationTeleporter;
 import client.tileentity.InfomationWindGenerator;
+import client.tileentity.TileEntityDiselGenerator;
 import client.tileentity.TileEntityHydroelectricGenerator;
 import client.tileentity.TileEntitySolarPanel;
 import client.tileentity.TileEntityTeleporter;
 import common.block.BlockOfSteel;
 import common.block.Cable;
+import common.block.DiselGenerator;
 import common.block.FluidPipe;
 import common.block.FoodCraftTable;
 import common.block.FoodFurnace;
@@ -19,8 +21,10 @@ import common.block.Teleporter;
 import common.block.ThermalGenerator;
 import common.block.WindGenerator;
 import common.block.WindRotor;
+import common.fluid.BlockBioDiesel;
 import common.item.DishEmpty;
 import common.item.ItemBase;
+import common.item.ItemDieselGenerator;
 import common.item.UpgradeFuel;
 import common.item.UpgradeSpeed;
 import common.item.VoidBucketSteel;
@@ -34,6 +38,8 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class MaterialRegister {
@@ -47,6 +53,8 @@ public class MaterialRegister {
 
 	public static final Block windGenerator = new WindGenerator("fmr.windGenerator", 10, Material.iron);
 	public static final Block windGeneratorWood = new WindGenerator.Wood("fmr.windGeneratorWood", 5, Material.wood);
+
+	public static final Block dieselGenerator = new DiselGenerator("fmr.dieselGenerator", 4096);
 
 	public static final Block solarPanelBasic = new SolarPanel.Basic("solarBasic", 8);
 	public static final Block solarPanelBasicI = new SolarPanel.BasicI("solarBasicI", 16);
@@ -89,6 +97,9 @@ public class MaterialRegister {
 	public static Block windRotor;
 
 	public static Block blockOfSteel;
+
+	public static Fluid fluidBioDiesel;
+	public static Block blockBioDiesel;
 
 	private MaterialRegister(){
 	}
@@ -136,6 +147,8 @@ public class MaterialRegister {
 
 		GameRegistry.registerBlock(windRotor, "fmr.windRotor");
 
+		GameRegistry.registerBlock(dieselGenerator, ItemDieselGenerator.class, "fmr.dieselGenerator");
+
 		GameRegistry.registerBlock(solarPanelBasic, InfomationSolar.class, "solarBasic");
 		GameRegistry.registerBlock(solarPanelBasicI, InfomationSolar.class, "solarBasicI");
 		GameRegistry.registerBlock(solarPanelBasicII, InfomationSolar.class, "solarBasicII");
@@ -154,6 +167,8 @@ public class MaterialRegister {
 
 		GameRegistry.registerTileEntity(TileEntityHydroelectricGenerator.class, "tileHydroGenerator");
 		GameRegistry.registerTileEntity(TileEntityHydroelectricGenerator.class, "tileHydroGeneratorAdv");
+
+		GameRegistry.registerTileEntity(TileEntityDiselGenerator.class, "tileDieselGenerator");
 
 		GameRegistry.registerTileEntity(TileEntitySolarPanel.class, "tileSolarPanel");
 		GameRegistry.registerTileEntity(TileEntitySolarPanel.Basic.class, "tileSolarBasic");
@@ -175,6 +190,8 @@ public class MaterialRegister {
 		GameRegistry.registerBlock(blockOfSteel, "fmr.blockOfSteel");
 		GameRegistry.registerBlock(foodCraftTable, "fmr.fCrafting");
 
+		//液体
+
 		//植物 作物系
 
 		//モンスター
@@ -184,7 +201,12 @@ public class MaterialRegister {
 		GameRegistry.registerItem(upgrade_fuel, "fmr.upgrade_fuel");
 	}
 
-	public void addFluid(){
+	static void addFluid(){
+		fluidBioDiesel = new Fluid("biodiesel").setUnlocalizedName("fmr.fluid.BioDiesel");
+		FluidRegistry.registerFluid(fluidBioDiesel);
+
+		blockBioDiesel = new BlockBioDiesel(fluidBioDiesel, Material.water).setBlockName("fmr.fluid.BioDiesel");
+		GameRegistry.registerBlock(blockBioDiesel, "fmr.fluidBlock.BioDiesel");
 	}
 
 	static void addItem(){

@@ -1,7 +1,8 @@
 package common.block;
 
-import client.tileentity.TileEntityHydroelectricGenerator;
+import client.tileentity.TileEntityDiselGenerator;
 import common.FoodMachineryRevolution;
+import common.item.ItemDieselGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -12,19 +13,20 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 import util.Utils;
 
-public class HydroelectricGenerator extends BlockContainer{
+public class DiselGenerator extends BlockContainer{
 
 	public final int energyGeneration;
 	public final int energyTransfer;
 	public final int energyCapacity;
 
-	public HydroelectricGenerator(String name, int energyGeneration){
+	public DiselGenerator(String name, int energyGeneration){
 		super(Material.iron);
 		this.setBlockName(name);
 		this.setResistance(100.0F);
@@ -56,8 +58,15 @@ public class HydroelectricGenerator extends BlockContainer{
 	    return 0;
 	}
 
+	public int getFluidStored(ItemStack itemstack){
+		if(itemstack.stackTagCompound != null){
+			return itemstack.stackTagCompound.getInteger("productTank");
+		}
+		return 0;
+	}
+
 	public TileEntity createNewTileEntity(World world, int meta){
-		return new TileEntityHydroelectricGenerator(this.energyGeneration, this.energyTransfer, this.energyCapacity);
+		return new TileEntityDiselGenerator(this.energyGeneration, this.energyTransfer, this.energyCapacity);
 	}
 
 	public boolean onBlockEventReceived(World world, int x, int y, int z, int eventNumber, int eventArgument){
@@ -76,8 +85,8 @@ public class HydroelectricGenerator extends BlockContainer{
 			return true;
 		}
 
-		  if (player.getCurrentEquippedItem() != null){
-		      if (Utils.hasUsableWrench(player, x, y, z))
+		if(player.getCurrentEquippedItem() != null){
+			if(Utils.hasUsableWrench(player, x, y, z))
 		      {
 		        if ((!world.isRemote) && (player.isSneaking()))
 		        {
@@ -90,6 +99,28 @@ public class HydroelectricGenerator extends BlockContainer{
 		        return false;
 		      }
 		    }
+
+		    TileEntityDiselGenerator tile = (TileEntityDiselGenerator)world.getTileEntity(x, y, z);
+
+		    if(tile == null){
+		    	FluidStack fluid = tile.productTank.getFluid();
+//		    	if(player.inventory.getCurrentItem() == null){
+		    		String s = "";
+		    		if(fluid != null && fluid.getFluid() != null){
+		    			s = "Fluid current in the tab : " + fluid.getFluid().getLocalizedName(fluid);
+		    		}else{
+		    			s = "No fluid in the tab";
+		    		}
+		    		if (!world.isRemote) player.addChatMessage(new ChatComponentText(s));
+//	        		return true;
+//		    	}
+
+		    	tile.markDirty();
+		        player.inventory.markDirty();
+		        world.markBlockForUpdate(x, y, z);
+
+		        return true;
+		    }
 		    return false;
 	}
 
@@ -101,8 +132,9 @@ public class HydroelectricGenerator extends BlockContainer{
 	    double motionY = world.rand.nextFloat() * motion + (1.0F - motion) * 0.5D;
 	    double motionZ = world.rand.nextFloat() * motion + (1.0F - motion) * 0.5D;
 	    EntityItem entityItem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, itemStack);
-	    TileEntityHydroelectricGenerator tileEntity = (TileEntityHydroelectricGenerator)world.getTileEntity(x, y, z);
+	    TileEntityDiselGenerator tileEntity = (TileEntityDiselGenerator)world.getTileEntity(x, y, z);
 	    int energyStored = tileEntity.getEnergyStored();
+	    int fluidStored = tileEntity.productTank.getFluidAmount();
 	    if (energyStored >= 1)
 	    {
 	      if (itemStack.getTagCompound() == null) {
@@ -110,6 +142,12 @@ public class HydroelectricGenerator extends BlockContainer{
 	      }
 	      itemStack.getTagCompound().setInteger("Energy", energyStored);
 	    }
+	    if(tileEntity.productTank.getFluidAmount() > 0){
+	    	NBTTagCompound tankTag = tileEntity.getItemNBT();
+			NBTTagCompound itemTag = Utils.getItemTag(itemStack);
+	    	itemTag.setTag("productTank", tankTag);
+	    }
+
 	    world.setBlockToAir(x, y, z);
 	    world.spawnEntityInWorld(entityItem);
 	  }
@@ -160,6 +198,20 @@ public class HydroelectricGenerator extends BlockContainer{
 		if(l==3){
 			world.setBlockMetadataWithNotify(x,y, z, 4, 2);
 		}
+
+		if(itemstack.stackTagCompound != null)
+	      {
+	        TileEntityDiselGenerator tileEntity = (TileEntityDiselGenerator)world.getTileEntity(x, y, z);
+
+	        FluidStack fluid = tileEntity.productTank.getFluid();
+	        tileEntity.setEnergyStored(itemstack.stackTagCompound.getInteger("Energy"));
+
+	        NBTTagCompound itemTag = itemstack.getTagCompound();
+
+			if (itemTag != null && itemTag.hasKey(ItemDieselGenerator.DISEL_TAG)) {
+				tileEntity.productTank.readFromNBT(itemTag.getCompoundTag(ItemDieselGenerator.DISEL_TAG));
+			}
+	      }
 	}
 
 	public boolean addHitEffects(World worldObj, MovingObjectPosition target, EffectRenderer effectRenderer){
@@ -168,36 +220,5 @@ public class HydroelectricGenerator extends BlockContainer{
 
 	public boolean addDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer){
 	    return true;
-	}
-
-	public boolean isOpaqueCube(){
-		return false;
-	}
-
-	public boolean renderAsNormalBlock(){
-		 return false;
-	}
-
-	public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side){
-        return false;
-    }
-
-	public static class Advanced extends HydroelectricGenerator{
-
-		public Advanced(String name, int energyGeneration){
-			super(name, energyGeneration);
-		}
-
-		public TileEntity createNewTileEntity(World world, int meta){
-			return new TileEntityHydroelectricGenerator.Advanced(energyGeneration, energyTransfer, energyCapacity);
-		}
-
-		public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack){
-	      if (itemStack.stackTagCompound != null){
-	        TileEntityHydroelectricGenerator tileEntity = (TileEntityHydroelectricGenerator)world.getTileEntity(x, y, z);
-
-	        tileEntity.setEnergyStored(itemStack.stackTagCompound.getInteger("Energy"));
-	      }
-		}
 	}
 }

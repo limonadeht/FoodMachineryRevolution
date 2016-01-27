@@ -37,18 +37,28 @@ public class FoodMachineryRevolution {
 	public void Init(FMLPreInitializationEvent e){
 		MaterialRegister.addBlocks();
 		System.out.println("Loaded Blocks");
+
 		MaterialRegister.addFoods();
 		System.out.println("Loaded Foods");
+
+		MaterialRegister.addFluid();
+		System.out.println("Loaded Fluids.");
+
 		MaterialRegister.addMachines();
 		System.out.println("Loaded Machines");
+
 		MaterialRegister.addItem();
 		System.out.println("Loaded Items");
+
 		MaterialRegister.addMaterials();
 		System.out.println("Loaded Materials");
+
 		MaterialRegister.addPlants();
 		System.out.println("Loaded Plants");
+
 		MaterialRegister.addTools();
 		System.out.println("Loaded Tools");
+
 		MaterialRegister.instance.load();
 
 		serverproxy.registerRenderers();

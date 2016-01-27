@@ -7,6 +7,7 @@ import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.ModAPIManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
@@ -84,5 +85,10 @@ public class Utils {
 	  public static String addRFTooltip()
 	  {
 	    return EnumChatFormatting.DARK_RED + " RF";
+	  }
+
+	  public static NBTTagCompound getItemTag(ItemStack stack) {
+			if (stack.stackTagCompound == null) stack.stackTagCompound = new NBTTagCompound();
+			return stack.stackTagCompound;
 	  }
 }
